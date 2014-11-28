@@ -2,7 +2,8 @@ extern crate linenoise;
 
 fn main() {
     loop {
-	   let val = linenoise::linenoise(">>> ");
+    	linenoise::history_set_max_len(1);
+	    let val = linenoise::linenoise(">>> ");
         match val {
             None => { break }
             _ => {

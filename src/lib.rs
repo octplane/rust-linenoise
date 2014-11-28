@@ -2,7 +2,6 @@ use std::c_str;
 
 pub mod ffi;
 
-
 pub fn linenoise(prompt: &str) -> Option<String> {
     let cs = prompt.to_c_str().as_ptr();
     let mut retval:Option<String>;
@@ -34,8 +33,46 @@ pub fn history_add(line: &str) -> i32 {
     ret
 }
 
+pub fn history_set_max_len(len: i32) -> i32 {
+    let mut ret: i32;
+    unsafe {
+        ret = ffi::linenoiseHistorySetMaxLen(len);
+    }
+    ret
+}
+
+pub fn history_save(file: &str) -> i32 {
+    let fname = file.to_c_str().as_ptr();
+    let mut ret: i32;
+    unsafe {
+        ret = ffi::linenoiseHistorySave(fname);
+    }
+    ret
+}
+
+pub fn history_load(file: &str) -> i32 {
+    let fname = file.to_c_str().as_ptr();
+    let mut ret: i32;
+    unsafe {
+        ret = ffi::linenoiseHistoryLoad(fname);
+    }
+    ret
+}
+
 pub fn clear_screen() {
     unsafe {
         ffi::linenoiseClearScreen();
+    }
+}
+
+pub fn set_multiline(ml: i32) {
+    unsafe {
+        ffi::linenoiseSetMultiLine(ml);
+    }
+}
+
+pub fn print_key_codes() {
+    unsafe {
+        ffi::linenoisePrintKeyCodes();
     }
 }
