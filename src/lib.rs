@@ -12,14 +12,15 @@ pub fn set_completion_callback(cb: fn(*mut libc::c_char, *mut Completions )) {
 }
 
 pub fn linenoise(prompt: &str) -> Option<String> {
-    let cs = prompt.to_c_str().as_ptr();
+    let cprompt = prompt.to_c_str();
     let mut retval:Option<String>;
 
     unsafe {
+        let cs = cprompt.as_ptr();
         let rret = ffi::linenoise(cs);
 
         let ptr = rret as *const i8;
-        let ret = c_str::CString::new(ptr, false);
+        let ret = c_str::CString::new(ptr, true);
         let cast = ret.as_str();
 
         match cast {

@@ -8,9 +8,8 @@ fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
 	let input: Option<&str>;
 	let ccurrent_input: std::c_str::CString;
 
-
 	unsafe {
-		ccurrent_input = c_str::CString::new(cs as *const _, false);
+		ccurrent_input = c_str::CString::new(cs as *const _, true);
 		input = ccurrent_input.as_str();
 	}
 	match input {
@@ -20,9 +19,10 @@ fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
 }
 
 fn main() {
+	println!("Hello !");
     loop {
 	    let val = linenoise::linenoise("hello > ");
-	    // linenoise::set_completion_callback(cb);
+	    linenoise::set_completion_callback(cb);
         match val {
             None => { break }
             _ => {
