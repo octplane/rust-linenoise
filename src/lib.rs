@@ -1,6 +1,15 @@
+extern crate libc;
 use std::c_str;
-
 pub mod ffi;
+
+pub type Completions = ffi::Struct_linenoiseCompletions;
+
+pub fn set_completion_callback(cb: fn(*mut libc::c_char, *mut Completions )) {
+    let ca = cb as *mut _;
+    unsafe {
+        ffi::linenoiseSetCompletionCallback(ca);
+    }
+}
 
 pub fn linenoise(prompt: &str) -> Option<String> {
     let cs = prompt.to_c_str().as_ptr();

@@ -1,9 +1,28 @@
 extern crate linenoise;
+extern crate libc;
+
+use std::c_str;
+
+
+fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
+	let input: Option<&str>;
+	let ccurrent_input: std::c_str::CString;
+
+
+	unsafe {
+		ccurrent_input = c_str::CString::new(cs as *const _, false);
+		input = ccurrent_input.as_str();
+	}
+	match input {
+		None => { return; }
+		_ => { println!("{}", input.unwrap()); }
+	}
+}
 
 fn main() {
     loop {
-    	linenoise::history_set_max_len(1);
-	    let val = linenoise::linenoise(">>> ");
+	    let val = linenoise::linenoise("hello > ");
+	    // linenoise::set_completion_callback(cb);
         match val {
             None => { break }
             _ => {

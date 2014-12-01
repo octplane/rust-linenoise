@@ -970,9 +970,10 @@ pub struct Struct_linenoiseCompletions {
     pub cvec: *mut *mut libc::c_char,
 }
 
+pub type linenoiseCompletionCallback = fn(*mut libc::c_char, *mut Struct_linenoiseCompletions);
 
 pub type linenoiseCompletions = Struct_linenoiseCompletions;
-pub type linenoiseCompletionCallback = libc::c_void;
+// pub type linenoiseCompletionCallback = libc::c_void;
 #[link(name = "linenoise", kind = "static")]
 extern "C" {
     pub static mut optarg: *mut libc::c_char;
