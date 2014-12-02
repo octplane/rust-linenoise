@@ -5,8 +5,8 @@ pub mod ffi;
 pub type Completions = ffi::Struct_linenoiseCompletions;
 
 pub fn set_completion_callback(cb: fn(*mut libc::c_char, *mut Completions )) {
-    let ca = cb as *mut _;
     unsafe {
+        let ca = cb as *mut _;
         ffi::linenoiseSetCompletionCallback(ca);
     }
 }

@@ -3,26 +3,40 @@ extern crate libc;
 
 use std::c_str;
 
-
 fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
 	let input: Option<&str>;
 	let ccurrent_input: std::c_str::CString;
 
 	unsafe {
-		ccurrent_input = c_str::CString::new(cs as *const _, true);
+		ccurrent_input = c_str::CString::new(cs as *const _, false);
 		input = ccurrent_input.as_str();
 	}
 	match input {
 		None => { return; }
-		_ => { println!("{}", input.unwrap()); }
+		_ => {
+			let ip = input.unwrap();
+		}
 	}
+
+	let rep = "coucou".to_c_str();
+	let adr = rep.as_ptr();
+
+	let mut vec = Vec::new();
+
+	vec.push(adr);
+
+	unsafe {
+		(*lc).len = 1;
+		(*lc).cvec = vec.as_mut_ptr() as *mut *mut i8;
+	}
+
 }
 
 fn main() {
-	println!("Hello !");
+	println!("Youhou.");
+    linenoise::set_completion_callback(cb);
     loop {
 	    let val = linenoise::linenoise("hello > ");
-	    linenoise::set_completion_callback(cb);
         match val {
             None => { break }
             _ => {
