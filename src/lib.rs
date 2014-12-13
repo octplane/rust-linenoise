@@ -8,20 +8,18 @@ pub type Completions = ffi::Struct_linenoiseCompletions;
 type Callback = ffi::linenoiseCompletionCallback;
 
 pub type CompletionCallback = fn(&str) -> Vec<&str>;
-pub struct Linenoise;
-impl Copy for Linenoise {}
-
-pub static LINENOISE: Linenoise  = Linenoise;
 static mut USER_COMPLETION: Option<CompletionCallback> = None;
 
-fn set_completion_callback(cb: fn(*mut libc::c_char, *mut Completions )) {
+
+pub fn init(rust_cb: CompletionCallback ) {
     unsafe {
-        let ca = cb as *mut _;
+        USER_COMPLETION = Some(rust_cb);
+        let ca = internal_callback as *mut _;
         ffi::linenoiseSetCompletionCallback(ca);
     }
 }
 
-pub fn linenoise(prompt: &str) -> Option<String> {
+pub fn input(prompt: &str) -> Option<String> {
     let cprompt = prompt.to_c_str();
     let mut retval:Option<String>;
 
@@ -108,51 +106,27 @@ pub fn add_completion(c: *mut Completions, s: &str) {
     }
 }
 
-// fn print_type_of<T>(_: &T) -> () {
-//     let type_name =
-//         unsafe {
-//             (*std::intrinsics::get_tydesc::<T>()).name
-//         };
-//     println!("{}", type_name);
-// }
-
-// Start the official external API
-
-impl Linenoise {
-    pub fn init(&self, rust_cb: CompletionCallback ) {
-        unsafe {
-            USER_COMPLETION = Some(rust_cb);
-        }
-
-        set_completion_callback(Linenoise::internal_callback);
+fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
+    unsafe {
+        (*lc).len = 0;
     }
-    pub fn input(&self, prompt: &str) -> Option<String> {
+    let input: Option<&str>;
+    let ccurrent_input: std::c_str::CString;
 
-        return linenoise(prompt);
+    unsafe {
+        ccurrent_input = c_str::CString::new(cs as *const _, false);
+        input = ccurrent_input.as_str();
     }
-
-    fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
-        unsafe {
-            (*lc).len = 0;
-        }
-        let input: Option<&str>;
-        let ccurrent_input: std::c_str::CString;
-
-        unsafe {
-            ccurrent_input = c_str::CString::new(cs as *const _, false);
-            input = ccurrent_input.as_str();
-        }
-        match input {
-            None => {}
-            Some(completable) => {
-                unsafe {
-                    match USER_COMPLETION {
-                        None => {}
-                        Some(external_callback) => {
-                            let ret = external_callback(completable);
-                            for x in ret.iter() {
-                                add_completion(lc, *x);
-                            }
+    match input {
+        None => {}
+        Some(completable) => {
+            unsafe {
+                match USER_COMPLETION {
+                    None => {}
+                    Some(external_callback) => {
+                        let ret = external_callback(completable);
+                        for x in ret.iter() {
+                            add_completion(lc, *x);
                         }
                     }
                 }

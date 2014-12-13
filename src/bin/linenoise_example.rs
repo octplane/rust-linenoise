@@ -1,23 +1,17 @@
 extern crate linenoise;
 extern crate libc;
 
-use linenoise::LINENOISE;
-
-
 fn callback(input: &str) -> Vec<&str> {
-	let ret = vec!["suggestion!", "suggestion2", "suggestion-three"];
+	let ret = vec!["suggestion", "suggestion2", "suggestion-three"];
 	return ret;
 }
 
 
-
-
 fn main() {
-	println!("Youhou.");
-	LINENOISE.init(callback);
+	linenoise::init(callback);
 
     loop {
-	    let val = LINENOISE.input("hello > ");
+	    let val = linenoise::input("hello > ");
         match val {
             None => { break }
             _ => {
