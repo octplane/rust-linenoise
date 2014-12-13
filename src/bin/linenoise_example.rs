@@ -5,8 +5,7 @@ use linenoise::LINENOISE;
 
 
 fn callback(input: &str) -> Vec<&str> {
-	println!("rust cb");
-	let ret = vec![];
+	let ret = vec!["suggestion!", "suggestion2", "suggestion-three"];
 	return ret;
 }
 

@@ -1,9 +1,18 @@
 extern crate libc;
+
 use std::c_str;
+
 pub mod ffi;
 
-type Completions = ffi::Struct_linenoiseCompletions;
+pub type Completions = ffi::Struct_linenoiseCompletions;
 type Callback = ffi::linenoiseCompletionCallback;
+
+pub type CompletionCallback = fn(&str) -> Vec<&str>;
+pub struct Linenoise;
+impl Copy for Linenoise {}
+
+pub static LINENOISE: Linenoise  = Linenoise;
+static mut USER_COMPLETION: Option<CompletionCallback> = None;
 
 fn set_completion_callback(cb: fn(*mut libc::c_char, *mut Completions )) {
     unsafe {
@@ -20,17 +29,22 @@ pub fn linenoise(prompt: &str) -> Option<String> {
         let cs = cprompt.as_ptr();
         let rret = ffi::linenoise(cs);
 
-        let ptr = rret as *const i8;
-        let ret = c_str::CString::new(ptr, true);
-        let cast = ret.as_str();
+        if rret != 0 as *mut i8 {
+            let ptr = rret as *const i8;
+            let ret = c_str::CString::new(ptr, true);
+            let cast = ret.as_str();
 
-        match cast {
-            None => { retval = None }
-            _ => {
-                let tmp = cast.unwrap ();
-                retval = Some (tmp.to_string());
+            match cast {
+                None => { retval = None }
+                _ => {
+                    let tmp = cast.unwrap ();
+                    retval = Some (tmp.to_string());
+                }
             }
+        } else {
+            retval = None;
         }
+
     }
     retval
 }
@@ -88,14 +102,21 @@ pub fn print_key_codes() {
     }
 }
 
+pub fn add_completion(c: *mut Completions, s: &str) {
+    unsafe {
+        ffi::linenoiseAddCompletion(c, s.to_c_str().as_ptr());
+    }
+}
+
+// fn print_type_of<T>(_: &T) -> () {
+//     let type_name =
+//         unsafe {
+//             (*std::intrinsics::get_tydesc::<T>()).name
+//         };
+//     println!("{}", type_name);
+// }
+
 // Start the official external API
-pub type CompletionCallback = fn(&str) -> Vec<&str>;
-pub struct Linenoise;
-impl Copy for Linenoise {}
-
-pub static LINENOISE : Linenoise  = Linenoise;
-static mut USER_COMPLETION : Option<CompletionCallback> = None;
-
 
 impl Linenoise {
     pub fn init(&self, rust_cb: CompletionCallback ) {
@@ -122,16 +143,16 @@ impl Linenoise {
             input = ccurrent_input.as_str();
         }
         match input {
-            None => { return; }
+            None => {}
             Some(completable) => {
                 unsafe {
                     match USER_COMPLETION {
-                        None => { return; }
+                        None => {}
                         Some(external_callback) => {
-                            println!("Calling callback");
                             let ret = external_callback(completable);
-                            println!("ret= {}", ret);
-                            return;
+                            for x in ret.iter() {
+                                add_completion(lc, *x);
+                            }
                         }
                     }
                 }
@@ -139,37 +160,3 @@ impl Linenoise {
         }
     }
 }
-
-// fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
-//     let input: Option<&str>;
-//     let ccurrent_input: std::c_str::CString;
-
-//     unsafe {
-//         ccurrent_input = c_str::CString::new(cs as *const _, false);
-//         input = ccurrent_input.as_str();
-//     }
-//     match input {
-//         None => { return; }
-//         _ => {
-//             let ip = input.unwrap();
-//         }
-//     }
-
-//     unsafe {
-
-//         let tep = "coucou".to_c_str();
-//         let rep = tep.as_ptr();
-
-//         let tap = "kiki".to_c_str();
-//         let rap = tap.as_ptr();
-
-//         let top = "koko".to_c_str();
-//         let rop = top.as_ptr();
-
-//         let mut vec = vec![rep, rap, rop];
-//         (*lc).len = 1;
-//         (*lc).cvec = vec.as_mut_ptr() as *mut *mut i8;
-//     }
-
-// }
-
