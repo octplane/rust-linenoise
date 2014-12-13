@@ -1,80 +1,24 @@
 extern crate linenoise;
 extern crate libc;
 
-use std::c_str;
+use linenoise::LINENOISE;
 
-struct Completion {
-	completions: *mut *mut i8,
-	cb: *mut fn(&str) -> Vec<&str>
+
+fn callback(input: &str) -> Vec<&str> {
+	println!("rust cb");
+	let ret = vec![];
+	return ret;
 }
 
-impl Completion {
-	fn input(&self, prompt: &str) -> Option<String> {
 
-	    return linenoise::linenoise(prompt);
-	}
-	fn set_callback(&mut self, callback:fn(&str) -> Vec<&str>) {
-		self.cb = callback as *mut _;
-	    linenoise::set_completion_callback(cb);
-	}
-	fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
-		let input: Option<&str>;
-		let ccurrent_input: std::c_str::CString;
 
-		unsafe {
-			ccurrent_input = c_str::CString::new(cs as *const _, false);
-			input = ccurrent_input.as_str();
-		}
-		match input {
-			None => { return; }
-			_ => {
-				let ip = input.unwrap();
-				println!("Input: {}", ip);
-			}
-		}
-	}
-}
-
-fn cb(cs: *mut libc::c_char, lc:*mut linenoise::Completions ) {
-	let input: Option<&str>;
-	let ccurrent_input: std::c_str::CString;
-
-	unsafe {
-		ccurrent_input = c_str::CString::new(cs as *const _, false);
-		input = ccurrent_input.as_str();
-	}
-	match input {
-		None => { return; }
-		_ => {
-			let ip = input.unwrap();
-		}
-	}
-
-	unsafe {
-
-		let tep = "coucou".to_c_str();
-		let rep = tep.as_ptr();
-
-		let tap = "kiki".to_c_str();
-		let rap = tap.as_ptr();
-
-		let top = "koko".to_c_str();
-		let rop = top.as_ptr();
-
-		let mut vec = vec![rep, rap, rop];
-		(*lc).len = 1;
-		(*lc).cvec = vec.as_mut_ptr() as *mut *mut i8;
-	}
-
-}
 
 fn main() {
 	println!("Youhou.");
-	let completion = Completion{ completions: 0 as *mut *mut i8, cb: 0 as *mut fn(&str) -> Vec<&str>  };
+	LINENOISE.init(callback);
 
-    linenoise::set_completion_callback(cb);
     loop {
-	    let val = linenoise::linenoise("hello > ");
+	    let val = LINENOISE.input("hello > ");
         match val {
             None => { break }
             _ => {
