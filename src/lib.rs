@@ -11,7 +11,8 @@ pub type CompletionCallback = fn(&str) -> Vec<&str>;
 static mut USER_COMPLETION: Option<CompletionCallback> = None;
 
 
-pub fn init(rust_cb: CompletionCallback ) {
+// Sets the callback when tab is pressed
+pub fn set_callback(rust_cb: CompletionCallback ) {
     unsafe {
         USER_COMPLETION = Some(rust_cb);
         let ca = internal_callback as *mut _;
@@ -19,6 +20,8 @@ pub fn init(rust_cb: CompletionCallback ) {
     }
 }
 
+// Shows the prompt with your prompt as prefix
+// Retuns the typed string or None is nothing or EOF
 pub fn input(prompt: &str) -> Option<String> {
     let cprompt = prompt.to_c_str();
     let mut retval:Option<String>;
@@ -47,6 +50,7 @@ pub fn input(prompt: &str) -> Option<String> {
     retval
 }
 
+// Add this string to the history
 pub fn history_add(line: &str) -> i32 {
     let cs = line.to_c_str().as_ptr();
     let mut ret: i32;
@@ -56,6 +60,7 @@ pub fn history_add(line: &str) -> i32 {
     ret
 }
 
+// Set max length history
 pub fn history_set_max_len(len: i32) -> i32 {
     let mut ret: i32;
     unsafe {
@@ -64,6 +69,7 @@ pub fn history_set_max_len(len: i32) -> i32 {
     ret
 }
 
+// Save the history on disk
 pub fn history_save(file: &str) -> i32 {
     let fname = file.to_c_str().as_ptr();
     let mut ret: i32;
@@ -73,6 +79,7 @@ pub fn history_save(file: &str) -> i32 {
     ret
 }
 
+// Load the history on disk
 pub fn history_load(file: &str) -> i32 {
     let fname = file.to_c_str().as_ptr();
     let mut ret: i32;
@@ -82,6 +89,7 @@ pub fn history_load(file: &str) -> i32 {
     ret
 }
 
+// Clears the screen
 pub fn clear_screen() {
     unsafe {
         ffi::linenoiseClearScreen();

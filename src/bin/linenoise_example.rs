@@ -6,9 +6,8 @@ fn callback(input: &str) -> Vec<&str> {
 	return ret;
 }
 
-
 fn main() {
-	linenoise::init(callback);
+	linenoise::set_callback(callback);
 
     loop {
 	    let val = linenoise::input("hello > ");
