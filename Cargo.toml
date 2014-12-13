@@ -1,10 +1,11 @@
 [package]
 
 name = "linenoise-rust"
-version = "0.0.2"
+version = "0.0.3"
 authors = [ "Pierre Baillet <pierre@baillet.name>" ]
 build = "build.rs"
 
+homepage = "https://github.com/octplane/rust-linenoise"
 description = "Simple binding to lib linenoise (readline-like) in rust. linenoise is included."
 readme = "README.markdown"
 keywords = ["cli", "library", "binding"]
