@@ -1,9 +1,13 @@
 [package]
 
 name = "linenoise"
-version = "0.0.1"
+version = "0.0.2"
 authors = [ "Pierre Baillet <pierre@baillet.name>" ]
 build = "build.rs"
+
+description = "Simple binding to lib linenoise (readline-like) in rust. linenoise is included."
+readme = "README.markdown"
+keywords = ["command line", "library", "binding"]
 
 
 [lib]
