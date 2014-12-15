@@ -21,5 +21,5 @@ name = "linenoise"
 name = "linenoise_example"
 
 [build-dependencies]
-gcc = "~0.1.0"
 
+gcc = "~0.1.0"
