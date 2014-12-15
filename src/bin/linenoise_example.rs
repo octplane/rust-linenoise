@@ -19,8 +19,7 @@ fn main() {
 	    let val = linenoise::input("hello > ");
         match val {
             None => { break }
-            _ => {
-                let input = val.unwrap();
+            Some(input) => {
                 println!("> {}", input);
                 linenoise::history_add(input.as_slice());
                 if input.as_slice() == "clear" {

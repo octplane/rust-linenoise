@@ -38,19 +38,12 @@ pub fn input(prompt: &str) -> Option<String> {
             let ret = c_str::CString::new(ptr, true);
             let cast = ret.as_str();
 
-            match cast {
-                None => { retval = None }
-                _ => {
-                    let tmp = cast.unwrap ();
-                    retval = Some (tmp.to_string());
-                }
-            }
+            cast.map(|x| x.to_string())
         } else {
-            retval = None;
+            None
         }
 
     }
-    retval
 }
 
 /// Add this string to the history
@@ -130,18 +123,12 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
         ccurrent_input = c_str::CString::new(cs as *const _, false);
         input = ccurrent_input.as_str();
     }
-    match input {
-        None => {}
-        Some(completable) => {
-            unsafe {
-                match USER_COMPLETION {
-                    None => {}
-                    Some(external_callback) => {
-                        let ret = external_callback(completable);
-                        for x in ret.iter() {
-                            add_completion(lc, *x);
-                        }
-                    }
+    for completable in input.iter() {
+        unsafe {
+            for external_callback in USER_COMPLETION.iter() {
+                let ret = (*external_callback)(*completable);
+                for x in ret.iter() {
+                    add_completion(lc, *x);
                 }
             }
         }
