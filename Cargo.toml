@@ -15,6 +15,7 @@ license = "MIT"
 
 name = "linenoise"
 test = false
+doc = true
 
 [[bin]]
 
