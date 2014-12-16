@@ -11,10 +11,10 @@ readme = "README.markdown"
 keywords = ["cli", "library", "binding"]
 license = "MIT"
 
-
 [lib]
 
 name = "linenoise"
+test = false
 
 [[bin]]
 
