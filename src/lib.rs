@@ -27,7 +27,6 @@ pub fn set_callback(rust_cb: CompletionCallback ) {
 /// Retuns the typed string or None is nothing or EOF
 pub fn input(prompt: &str) -> Option<String> {
     let cprompt = prompt.to_c_str();
-    let mut retval:Option<String>;
 
     unsafe {
         let cs = cprompt.as_ptr();
