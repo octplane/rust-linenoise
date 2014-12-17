@@ -3,7 +3,8 @@ env:
     - secure: SeOATe7cjsstA/Lndqmj3WpHGNFxeSXqFWF8Db/kPTWdgPRSgIXrXJXT9oWl4iDDFMo3g4nm76ZtrjOXRx+1ueNyVr6Q9i1ll/gzojbcI74u/vLzQyNqG+rYplQpwXfW/CMOrOt/riV4HgI4LMsisT2jMANSfwINackkU5BUEmM=
 language: rust
 script:
-  - cargo build
-  - cargo doc
+  - cargo build -v
+  - cargo doc --no-deps -v
+  - mv target/doc doc
 after_script:
   - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN | sh
