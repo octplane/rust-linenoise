@@ -1,12 +1,12 @@
 [root]
 name = "linenoise-rust"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
- "gcc 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gcc 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "gcc"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
