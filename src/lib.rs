@@ -1,8 +1,10 @@
 #![crate_type="lib"]
+#![feature(slicing_syntax)]
 
 extern crate libc;
 
 use std::c_str;
+use std::c_str::ToCStr;
 pub mod ffi;
 
 

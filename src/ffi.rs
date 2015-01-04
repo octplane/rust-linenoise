@@ -67,8 +67,6 @@ pub type __darwin_sigset_t = __uint32_t;
 pub type __darwin_suseconds_t = __int32_t;
 pub type __darwin_uid_t = __uint32_t;
 pub type __darwin_useconds_t = __uint32_t;
-pub type __darwin_uuid_t = [libc::c_uchar, ..16u];
-pub type __darwin_uuid_string_t = [libc::c_char, ..37u];
 // #[repr(C)]
 // pub struct Struct___darwin_pthread_handler_rec {
 //     pub __routine: ::std::option::Option<extern "C" fn
@@ -864,8 +862,8 @@ pub struct Struct___sFILE {
     pub _ub: Struct___sbuf,
     pub _extra: *mut Struct___sFILEX,
     pub _ur: libc::c_int,
-    pub _ubuf: [libc::c_uchar, ..3u],
-    pub _nbuf: [libc::c_uchar, ..1u],
+    pub _ubuf: [libc::c_uchar; 3u],
+    pub _nbuf: [libc::c_uchar; 1u],
     pub _lb: Struct___sbuf,
     pub _blksize: libc::c_int,
     pub _offset: fpos_t,
@@ -892,7 +890,7 @@ pub type FILE = Struct___sFILE;
 // pub type _RuneRange = Struct_Unnamed9;
 #[repr(C)]
 pub struct Struct_Unnamed10 {
-    pub __name: [libc::c_char, ..14u],
+    pub __name: [libc::c_char; 14u],
     pub __mask: __uint32_t,
 }
 impl Copy for Struct_Unnamed10 {}
