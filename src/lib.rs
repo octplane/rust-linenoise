@@ -13,7 +13,9 @@ type Callback = ffi::linenoiseCompletionCallback;
 pub type CompletionCallback = fn(&str) -> Vec<&str>;
 static mut USER_COMPLETION: Option<CompletionCallback> = None;
 
-
+fn from_c_str<'a>(p: &'a *const libc::c_char) -> &'a str {
+    std::str::from_utf8( unsafe { std::ffi::c_str_to_bytes(p) } ).ok().expect("Found invalid utf8")
+}
 
 /// Sets the callback when tab is pressed
 pub fn set_callback(rust_cb: CompletionCallback ) {
@@ -35,7 +37,7 @@ pub fn input(prompt: &str) -> Option<String> {
 
         let rval = if rret != 0 as *mut i8 {
             let ptr = rret as *const i8;
-            let cast = std::str::from_c_str(ptr);
+            let cast = from_c_str(&ptr);
             Some(cast.to_string())
         } else {
             None
@@ -115,10 +117,9 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
         (*lc).len = 0;
     }
     let input: &str;
+    let cr = cs as *const _;
 
-    unsafe {
-        input = std::str::from_c_str(cs as *const _);
-    }
+    input = from_c_str(&cr);
 
     unsafe {
         for external_callback in USER_COMPLETION.iter() {
