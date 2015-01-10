@@ -1,5 +1,7 @@
 #![crate_type="lib"]
 #![feature(slicing_syntax)]
+#![feature(int_uint)]
+#![allow(unstable)]
 
 extern crate libc;
 

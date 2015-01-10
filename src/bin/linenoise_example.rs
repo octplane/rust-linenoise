@@ -1,5 +1,6 @@
+#![allow(unstable)]
+
 extern crate linenoise;
-extern crate libc;
 
 fn callback(input: &str) -> Vec<&str> {
 	let mut ret : Vec<&str>;

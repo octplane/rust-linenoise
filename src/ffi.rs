@@ -1,6 +1,5 @@
 #![allow(non_snake_case)]
 #![allow(non_camel_case_types)]
-
 extern crate libc;
 
 // pub type tcflag_t = libc::c_ulong;
@@ -862,8 +861,8 @@ pub struct Struct___sFILE {
     pub _ub: Struct___sbuf,
     pub _extra: *mut Struct___sFILEX,
     pub _ur: libc::c_int,
-    pub _ubuf: [libc::c_uchar; 3u],
-    pub _nbuf: [libc::c_uchar; 1u],
+    pub _ubuf: [libc::c_uchar; 3],
+    pub _nbuf: [libc::c_uchar; 1],
     pub _lb: Struct___sbuf,
     pub _blksize: libc::c_int,
     pub _offset: fpos_t,
@@ -890,7 +889,7 @@ pub type FILE = Struct___sFILE;
 // pub type _RuneRange = Struct_Unnamed9;
 #[repr(C)]
 pub struct Struct_Unnamed10 {
-    pub __name: [libc::c_char; 14u],
+    pub __name: [libc::c_char; 14],
     pub __mask: __uint32_t,
 }
 impl Copy for Struct_Unnamed10 {}
