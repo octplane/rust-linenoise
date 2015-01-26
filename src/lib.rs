@@ -12,7 +12,7 @@ pub mod ffi;
 pub type Completions = ffi::Struct_linenoiseCompletions;
 type Callback = ffi::linenoiseCompletionCallback;
 
-pub type CompletionCallback = fn(&str) -> Vec<&str>;
+pub type CompletionCallback = fn(&str) -> Vec<String>;
 static mut USER_COMPLETION: Option<CompletionCallback> = None;
 
 fn from_c_str<'a>(p: &'a *const libc::c_char) -> &'a str {
@@ -127,7 +127,7 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
         for external_callback in USER_COMPLETION.iter() {
             let ret = (*external_callback)(input);
             for x in ret.iter() {
-                add_completion(lc, *x);
+                add_completion(lc, x.as_slice());
             }
         }
     }

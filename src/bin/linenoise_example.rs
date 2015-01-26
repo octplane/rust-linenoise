@@ -2,7 +2,7 @@
 
 extern crate linenoise;
 
-fn callback(input: &str) -> Vec<&str> {
+fn callback(input: &str) -> Vec<String> {
 	let mut ret : Vec<&str>;
 	 if input.starts_with("s") {
 		ret = vec!["suggestion", "suggestion2", "suggestion-three"];
@@ -10,7 +10,7 @@ fn callback(input: &str) -> Vec<&str> {
 		ret = vec!["wot"];
 	}
 
-	return ret;
+    return ret.iter().map(|s| s.to_string()).collect();
 }
 
 fn main() {
