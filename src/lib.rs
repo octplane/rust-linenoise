@@ -118,8 +118,8 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
     unsafe {
         (*lc).len = 0;
     }
-    let input: &str;
     let cr = cs as *const _;
+    let input: &str;
 
     input = from_c_str(&cr);
 
