@@ -1,7 +1,7 @@
 #![crate_type="lib"]
 #![feature(slicing_syntax)]
 #![feature(int_uint)]
-#![allow(unstable)]
+#![feature(libc, std_misc, collections, core)]
 
 extern crate libc;
 
