@@ -6,6 +6,5 @@ script:
   - cargo build -v
   - cargo doc --no-deps -v
   - mv target/doc doc
-  - curl -v http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN -o -
 after_script:
-  - echo "coucou"
+  - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN -o -
