@@ -7,7 +7,7 @@ script:
   - cargo doc --no-deps -v
   - mv target/doc doc
 after_script: |
-cargo doc \
+  cargo doc \
   && echo '<meta http-equiv=refresh content=0;url=linenoise/index.html>' > target/doc/index.html && \
   sudo pip install ghp-import && \
   ghp-import -n target/doc && \
