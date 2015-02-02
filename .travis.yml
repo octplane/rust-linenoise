@@ -1,6 +1,3 @@
-env:
-  global:
-    - secure: Ni7ZNWMiXEkYBvq7LqG2SDf8spFt/y7rKUuhsM4fvMHCv3bwBiuyAqnAwRsfmalKcJgvIrTGfuc8oX/TIR25mUZW3IpQuWqUVWSaETWh+nSGSrEJW9Tk1kfOhe1NfEqKm4v193/spbN12kKV8MSbTwk1rlbf7n5WCyQjIl/lUKM=
 language: rust
 script:
   - cargo build -v

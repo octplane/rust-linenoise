@@ -10,12 +10,13 @@ A minimal, zero-config, BSD licensed, readline replacement.
 Add the following line to you project
 
 `
-linenoise-rust = "0.1.4"
+linenoise-rust = "0.1.5"
 `
 
 # Usage
 
-See [src/linenoise.rs](src/linenoise.rs).
+- example code [src/linenoise.rs](src/linenoise.rs).
+- [Api documentation](http://octplane.github.io/rust-linenoise/linenoise/index.html)
 
 # Misc
 
