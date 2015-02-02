@@ -6,6 +6,9 @@ authors = [ "Pierre Baillet <pierre@baillet.name>" ]
 build = "build.rs"
 
 homepage = "https://github.com/octplane/rust-linenoise"
+documentation = "http://octplane.github.io/rust-linenoise/linenoise/index.html"
+repository = "https://github.com/octplane/rust-linenoise"
+
 description = "Simple binding to lib linenoise (readline-like) in rust. linenoise is included."
 readme = "README.markdown"
 keywords = ["cli", "library", "binding"]
