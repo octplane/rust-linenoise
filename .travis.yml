@@ -1,11 +1,11 @@
 env:
   global:
-    - secure: TaTelVIY9fC6YLXJKADCTdqFDUKPVceSw+WBEbEkeedTKJFlJUH2fnIJsTxDJaukKqqTrLs9OKb8E4sh5b59QoCSERhjFf0FQoa600WWghf9k32wQi39kkXGslf4Nrkf86X0nLac4ZPKQ/Tx1mbCoksKWTmTl36huCZ0YnRZpyA=
+    - secure: Ni7ZNWMiXEkYBvq7LqG2SDf8spFt/y7rKUuhsM4fvMHCv3bwBiuyAqnAwRsfmalKcJgvIrTGfuc8oX/TIR25mUZW3IpQuWqUVWSaETWh+nSGSrEJW9Tk1kfOhe1NfEqKm4v193/spbN12kKV8MSbTwk1rlbf7n5WCyQjIl/lUKM=
 language: rust
 script:
   - cargo build -v
   - cargo doc --no-deps -v
   - mv target/doc doc
-  - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN -o -
+  - curl -v http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN -o -
 after_script:
   - echo "coucou"
