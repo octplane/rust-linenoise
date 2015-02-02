@@ -6,5 +6,9 @@ script:
   - cargo build -v
   - cargo doc --no-deps -v
   - mv target/doc doc
-after_script:
-  - curl http://www.rust-ci.org/artifacts/put?t=$RUSTCI_TOKEN -o -
+after_script: |
+cargo doc \
+  && echo '<meta http-equiv=refresh content=0;url=linenoise/index.html>' > target/doc/index.html && \
+  sudo pip install ghp-import && \
+  ghp-import -n target/doc && \
+  git push -qf https://${TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git gh-pages
