@@ -25,5 +25,5 @@ linenoise-rust = "0.1.5"
 The original `linenoise` library belongs to [cmr/linenoise-rs](https://github.com/cmr/linenoise-rs) for which I have sent some pull requests. However, I'm trying to maintain my own version as the stats tends to [indicate my version](https://crates.io/search?q=linenoise) is the de factor standard.
 
 #### TODO
-- Use fork from oldium/linenoise (when gcc:compile_library supports -l) : **DOES NOT BUILD ON OSX AS IS**
-- Split in -sys and normal library
+- Use fork from [oldium/linenoise](oldium/linenoise) (when gcc:compile_library supports -l) : [oldium/linenoise](oldium/linenoise) does not build on OSX as is,
+- Split in -sys and normal library.
