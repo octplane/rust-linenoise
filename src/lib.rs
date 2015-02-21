@@ -1,6 +1,5 @@
 #![crate_name="linenoise"]
 #![crate_type="lib"]
-#![feature(slicing_syntax)]
 #![feature(int_uint)]
 #![feature(libc, std_misc, core)]
 
@@ -46,6 +45,9 @@
 extern crate libc;
 
 use std::ffi::CString;
+use std::ffi::CStr;
+use std::str;
+
 pub mod ffi;
 
 
@@ -55,9 +57,6 @@ type Callback = ffi::linenoiseCompletionCallback;
 pub type CompletionCallback = fn(&str) -> Vec<String>;
 static mut USER_COMPLETION: Option<CompletionCallback> = None;
 
-fn from_c_str<'a>(p: &'a *const libc::c_char) -> &'a str {
-    std::str::from_utf8( unsafe { std::ffi::c_str_to_bytes(p) } ).ok().expect("Found invalid utf8")
-}
 
 /// Sets the callback when tab is pressed
 pub fn set_callback(rust_cb: CompletionCallback ) {
@@ -71,7 +70,7 @@ pub fn set_callback(rust_cb: CompletionCallback ) {
 /// Shows the prompt with your prompt as prefix
 /// Retuns the typed string or None is nothing or EOF
 pub fn input(prompt: &str) -> Option<String> {
-    let cprompt = CString::from_slice(prompt.as_bytes());
+    let cprompt = CString::new(prompt.as_bytes()).unwrap();
 
     unsafe {
         let cs = cprompt.as_ptr();
@@ -79,8 +78,8 @@ pub fn input(prompt: &str) -> Option<String> {
 
         let rval = if rret != 0 as *mut i8 {
             let ptr = rret as *const i8;
-            let cast = from_c_str(&ptr);
-            Some(cast.to_string())
+            let cast = str::from_utf8(CStr::from_ptr(ptr).to_bytes()).unwrap().to_string();
+            Some(cast)
         } else {
             None
         };
@@ -90,7 +89,7 @@ pub fn input(prompt: &str) -> Option<String> {
 
 /// Add this string to the history
 pub fn history_add(line: &str) -> i32 {
-    let cs = CString::from_slice(line.as_bytes()).as_slice_with_nul().as_ptr();
+    let cs = CString::new(line).unwrap().as_ptr();
     let mut ret: i32;
     unsafe {
         ret = ffi::linenoiseHistoryAdd(cs);
@@ -109,7 +108,7 @@ pub fn history_set_max_len(len: i32) -> i32 {
 
 /// Save the history on disk
 pub fn history_save(file: &str) -> i32 {
-    let fname = CString::from_slice(file.as_bytes()).as_slice_with_nul().as_ptr();
+    let fname = CString::new(file).unwrap().as_ptr();
     let mut ret: i32;
     unsafe {
         ret = ffi::linenoiseHistorySave(fname);
@@ -119,7 +118,7 @@ pub fn history_save(file: &str) -> i32 {
 
 /// Load the history on disk
 pub fn history_load(file: &str) -> i32 {
-    let fname = CString::from_slice(file.as_bytes()).as_slice_with_nul().as_ptr();
+    let fname = CString::new(file).unwrap().as_ptr();
     let mut ret: i32;
     unsafe {
         ret = ffi::linenoiseHistoryLoad(fname);
@@ -150,7 +149,7 @@ pub fn print_key_codes() {
 /// Add a completion to the current list of completions.
 pub fn add_completion(c: *mut Completions, s: &str) {
     unsafe {
-        ffi::linenoiseAddCompletion(c, CString::from_slice(s.as_bytes()).as_slice_with_nul().as_ptr());
+        ffi::linenoiseAddCompletion(c, CString::new(s).unwrap().as_ptr());
     }
 }
 
@@ -159,11 +158,10 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
         (*lc).len = 0;
     }
     let cr = cs as *const _;
-    let input: &str;
 
-    input = from_c_str(&cr);
 
     unsafe {
+        let input = str::from_utf8(CStr::from_ptr(cr).to_bytes()).unwrap();
         for external_callback in USER_COMPLETION.iter() {
             let ret = (*external_callback)(input);
             for x in ret.iter() {
