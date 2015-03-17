@@ -1,7 +1,7 @@
 #![crate_name="linenoise"]
 #![crate_type="lib"]
 #![feature(int_uint)]
-#![feature(libc, std_misc, core)]
+#![feature(libc, core)]
 
 //! This is a library that interfaces with the linenoise library.
 //! [Linenoise](https://github.com/antirez/linenoise) is a library implemented by Antirez, the Redis creator as a
