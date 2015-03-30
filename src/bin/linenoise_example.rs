@@ -1,4 +1,4 @@
-#![feature(core)]
+#![feature(convert)]
 
 extern crate linenoise;
 
@@ -22,8 +22,9 @@ fn main() {
             None => { break }
             Some(input) => {
                 println!("> {}", input);
-                linenoise::history_add(input.as_slice());
-                if input.as_slice() == "clear" {
+                linenoise::history_add(input.as_ref());
+				let is: &str = input.as_ref();
+                if is == "clear" {
                 	linenoise::clear_screen();
                 }
             }

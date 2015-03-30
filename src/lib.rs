@@ -1,7 +1,7 @@
 #![crate_name="linenoise"]
 #![crate_type="lib"]
-#![feature(int_uint)]
-#![feature(libc, core)]
+#![feature(libc)]
+#![feature(convert)]
 
 //! This is a library that interfaces with the linenoise library.
 //! [Linenoise](https://github.com/antirez/linenoise) is a library implemented by Antirez, the Redis creator as a
@@ -165,7 +165,7 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
         for external_callback in USER_COMPLETION.iter() {
             let ret = (*external_callback)(input);
             for x in ret.iter() {
-                add_completion(lc, x.as_slice());
+                add_completion(lc, x.as_ref());
             }
         }
     }
