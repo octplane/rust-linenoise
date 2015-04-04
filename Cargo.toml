@@ -23,6 +23,9 @@ doctest = false
 
 name = "linenoise_example"
 
+[dependencies]
+libc = "*"
+
 [build-dependencies]
 
 gcc = "*"
