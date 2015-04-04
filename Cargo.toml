@@ -19,10 +19,6 @@ license = "MIT"
 name = "linenoise"
 doctest = false
 
-[[bin]]
-
-name = "linenoise_example"
-
 [dependencies]
 libc = "*"
 
