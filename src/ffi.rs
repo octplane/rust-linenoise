@@ -977,7 +977,6 @@ pub type linenoiseCompletionCallback = fn(*mut libc::c_char, *mut Struct_linenoi
 
 pub type linenoiseCompletions = Struct_linenoiseCompletions;
 // pub type linenoiseCompletionCallback = libc::c_void;
-#[link(name = "linenoise", kind = "static")]
 extern "C" {
     pub static mut optarg: *mut libc::c_char;
     pub static mut optind: libc::c_int;
@@ -994,7 +993,6 @@ extern "C" {
     // pub static mut _DefaultRuneLocale: _RuneLocale;
     // pub static mut _CurrentRuneLocale: *mut _RuneLocale;
 }
-#[link(name = "linenoise", kind = "static")]
 extern "C" {
     pub fn linenoiseSetCompletionCallback(arg1:
                                               *mut linenoiseCompletionCallback);

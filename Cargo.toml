@@ -3,6 +3,7 @@
 name = "linenoise-rust"
 version = "0.1.10"
 authors = [ "Pierre Baillet <pierre@baillet.name>" ]
+links = "linenoise"
 build = "build.rs"
 
 homepage = "https://github.com/octplane/rust-linenoise"
