@@ -1,8 +1,9 @@
 [package]
 
 name = "linenoise-rust"
-version = "0.1.10"
+version = "0.1.11"
 authors = [ "Pierre Baillet <pierre@baillet.name>" ]
+links = "linenoise"
 build = "build.rs"
 
 homepage = "https://github.com/octplane/rust-linenoise"
@@ -19,9 +20,8 @@ license = "MIT"
 name = "linenoise"
 doctest = false
 
-[[bin]]
-
-name = "linenoise_example"
+[dependencies]
+libc = "*"
 
 [build-dependencies]
 

@@ -10,7 +10,7 @@ A minimal, zero-config, BSD licensed, readline replacement.
 Add the following line to you project
 
 `
-linenoise-rust = "0.1.8"
+linenoise-rust = "0.1.11"
 `
 
 # Usage

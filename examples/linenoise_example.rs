@@ -1,5 +1,3 @@
-#![feature(convert)]
-
 extern crate linenoise;
 
 fn callback(input: &str) -> Vec<String> {

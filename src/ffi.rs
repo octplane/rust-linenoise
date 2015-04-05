@@ -826,10 +826,8 @@ pub struct Struct___sbuf {
     pub _base: *mut libc::c_uchar,
     pub _size: libc::c_int,
 }
-impl Copy for Struct___sbuf {}
 
 pub enum Struct___sFILEX { }
-impl Copy for Struct___sFILEX {}
 
 
 #[repr(C)]
@@ -867,7 +865,6 @@ pub struct Struct___sFILE {
     pub _blksize: libc::c_int,
     pub _offset: fpos_t,
 }
-impl Copy for Struct___sFILE {}
 
 pub type FILE = Struct___sFILE;
 // pub type errno_t = libc::c_int;
@@ -892,7 +889,6 @@ pub struct Struct_Unnamed10 {
     pub __name: [libc::c_char; 14],
     pub __mask: __uint32_t,
 }
-impl Copy for Struct_Unnamed10 {}
 
 pub type _RuneCharClass = Struct_Unnamed10;
 // #[repr(C)]
@@ -966,7 +962,6 @@ pub struct Struct_ttysize {
     pub ts_xxx: libc::c_ushort,
     pub ts_yyy: libc::c_ushort,
 }
-impl Copy for Struct_ttysize {}
 
 pub type __darwin_size_t = libc::c_ulong;
 pub type size_t = __darwin_size_t;
@@ -982,7 +977,6 @@ pub type linenoiseCompletionCallback = fn(*mut libc::c_char, *mut Struct_linenoi
 
 pub type linenoiseCompletions = Struct_linenoiseCompletions;
 // pub type linenoiseCompletionCallback = libc::c_void;
-#[link(name = "linenoise", kind = "static")]
 extern "C" {
     pub static mut optarg: *mut libc::c_char;
     pub static mut optind: libc::c_int;
@@ -999,7 +993,6 @@ extern "C" {
     // pub static mut _DefaultRuneLocale: _RuneLocale;
     // pub static mut _CurrentRuneLocale: *mut _RuneLocale;
 }
-#[link(name = "linenoise", kind = "static")]
 extern "C" {
     pub fn linenoiseSetCompletionCallback(arg1:
                                               *mut linenoiseCompletionCallback);
