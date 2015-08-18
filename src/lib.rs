@@ -88,7 +88,7 @@ pub fn input(prompt: &str) -> Option<String> {
 /// Add this string to the history
 pub fn history_add(line: &str) -> i32 {
     let cs = CString::new(line).unwrap().as_ptr();
-    let mut ret: i32;
+    let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistoryAdd(cs);
     }
@@ -97,7 +97,7 @@ pub fn history_add(line: &str) -> i32 {
 
 /// Set max length history
 pub fn history_set_max_len(len: i32) -> i32 {
-    let mut ret: i32;
+    let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistorySetMaxLen(len);
     }
@@ -107,7 +107,7 @@ pub fn history_set_max_len(len: i32) -> i32 {
 /// Save the history on disk
 pub fn history_save(file: &str) -> i32 {
     let fname = CString::new(file).unwrap().as_ptr();
-    let mut ret: i32;
+    let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistorySave(fname);
     }
@@ -117,7 +117,7 @@ pub fn history_save(file: &str) -> i32 {
 /// Load the history on disk
 pub fn history_load(file: &str) -> i32 {
     let fname = CString::new(file).unwrap().as_ptr();
-    let mut ret: i32;
+    let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistoryLoad(fname);
     }

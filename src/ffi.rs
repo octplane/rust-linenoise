@@ -973,7 +973,7 @@ pub struct Struct_linenoiseCompletions {
     pub cvec: *mut *mut libc::c_char,
 }
 
-pub type linenoiseCompletionCallback = fn(*mut libc::c_char, *mut Struct_linenoiseCompletions);
+pub type linenoiseCompletionCallback = extern fn(*mut libc::c_char, *mut Struct_linenoiseCompletions);
 
 pub type linenoiseCompletions = Struct_linenoiseCompletions;
 // pub type linenoiseCompletionCallback = libc::c_void;
