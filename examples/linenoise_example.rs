@@ -13,9 +13,10 @@ fn callback(input: &str) -> Vec<String> {
 
 fn main() {
 	linenoise::set_callback(callback);
+    linenoise::set_multiline(0);
 
     loop {
-	    let val = linenoise::input("hello > ");
+	    let val = linenoise::input("Hello\nDave -> ");
         match val {
             None => { break }
             Some(input) => {

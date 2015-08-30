@@ -27,3 +27,11 @@ The original `linenoise` library belongs to [cmr/linenoise-rs](https://github.co
 #### TODO
 - Use fork from [oldium/linenoise](oldium/linenoise) (when gcc:compile_library supports -l) : [oldium/linenoise](oldium/linenoise) does not build on OSX as is,
 - Split in -sys and normal library.
+
+
+#### Contributors
+
+Linenoise was also improved by these people. Thanks to them :)
+
+- Dan Spencer @nukep: Fixes for stable rust
+- Kalyanov Dmitry @dmitryvk: Memory Leak
