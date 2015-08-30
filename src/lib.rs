@@ -77,6 +77,7 @@ pub fn input(prompt: &str) -> Option<String> {
         let rval = if rret != 0 as *mut i8 {
             let ptr = rret as *const i8;
             let cast = str::from_utf8(CStr::from_ptr(ptr).to_bytes()).unwrap().to_string();
+            libc::free(ptr as *mut libc::c_void);
             Some(cast)
         } else {
             None
