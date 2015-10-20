@@ -1,5 +1,7 @@
-/* linenoise.c -- guerrilla line editing library against the idea that a
- * line editing lib needs to be 20,000 lines of C code.
+/* linenoise.c -- VERSION 1.0
+ *
+ * Guerrilla line editing library against the idea that a line editing lib
+ * needs to be 20,000 lines of C code.
  *
  * You can find the latest source code at:
  *
@@ -1066,6 +1068,14 @@ int linenoiseHistorySetMaxLen(int len) {
     if (history_len > history_max_len)
         history_len = history_max_len;
     return 1;
+}
+
+/* Fetch a line of the history by (zero-based) index.  If the requested
+ * line does not exist, NULL is returned.  The return value is a heap-allocated
+ * copy of the line, and the caller is responsible for de-allocating it. */
+char * linenoiseHistoryLine(const int index) {
+    if (index < 0 || index >= history_len) return NULL;
+    return strdup(history[index]);
 }
 
 /* Save the history in the specified file. On success 0 is returned
