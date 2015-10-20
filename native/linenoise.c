@@ -1,5 +1,7 @@
-/* linenoise.c -- guerrilla line editing library against the idea that a
- * line editing lib needs to be 20,000 lines of C code.
+/* linenoise.c -- VERSION 1.0
+ *
+ * Guerrilla line editing library against the idea that a line editing lib
+ * needs to be 20,000 lines of C code.
  *
  * You can find the latest source code at:
  *
@@ -109,6 +111,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -753,7 +756,10 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
         int nread;
         char seq[3];
 
-        nread = read(l.ifd,&c,1);
+        /* Continue reading if interrupted by signal. */
+        do {
+            nread = read(l.ifd,&c,1);
+        } while((nread == -1) && (errno == EINTR));
         if (nread <= 0) return l.len;
 
         /* Only autocomplete when the callback is set. It returns < 0 when
@@ -825,9 +831,15 @@ static int linenoiseEdit(int stdin_fd, int stdout_fd, char *buf, size_t buflen, 
                     if (read(l.ifd,seq+2,1) == -1) break;
                     if (seq[2] == '~') {
                         switch(seq[1]) {
-                        case '3': /* Delete key. */
-                            linenoiseEditDelete(&l);
-                            break;
+                            case '3': /* Delete key. */
+                                linenoiseEditDelete(&l);
+                                break;
+                            case '1': /* Home key. */
+                                linenoiseEditMoveHome(&l);
+                                break;
+                            case '4': /* End key. */
+                                linenoiseEditMoveEnd(&l);
+                                break;
                         }
                     }
                 } else {
@@ -1047,7 +1059,7 @@ int linenoiseHistorySetMaxLen(int len) {
     if (history) {
         int tocopy = history_len;
 
-        new = malloc(sizeof(char*)*len);
+        new = calloc(len, sizeof(char*));
         if (new == NULL) return 0;
 
         /* If we can't copy everything, free the elements we'll not use. */
@@ -1057,7 +1069,6 @@ int linenoiseHistorySetMaxLen(int len) {
             for (j = 0; j < tocopy-len; j++) free(history[j]);
             tocopy = len;
         }
-        memset(new,0,sizeof(char*)*len);
         memcpy(new,history+(history_len-tocopy), sizeof(char*)*tocopy);
         free(history);
         history = new;
@@ -1066,6 +1077,14 @@ int linenoiseHistorySetMaxLen(int len) {
     if (history_len > history_max_len)
         history_len = history_max_len;
     return 1;
+}
+
+/* Fetch a line of the history by (zero-based) index.  If the requested
+ * line does not exist, NULL is returned.  The return value is a heap-allocated
+ * copy of the line, and the caller is responsible for de-allocating it. */
+char * linenoiseHistoryLine(const int index) {
+    if (index < 0 || index >= history_len) return NULL;
+    return strdup(history[index]);
 }
 
 /* Save the history in the specified file. On success 0 is returned

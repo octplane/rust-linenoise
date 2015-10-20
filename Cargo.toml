@@ -26,3 +26,9 @@ libc = "*"
 [build-dependencies]
 
 gcc = "*"
+
+[[bin]]
+# Build the example, but don't include it in documentation.
+name = "linenoise_example"
+path = "examples/linenoise_example.rs"
+doc = false
