@@ -16,7 +16,7 @@ fn main() {
     linenoise::set_multiline(0);
 
     loop {
-	    let val = linenoise::input("Hello\nDave -> ");
+	    let val = linenoise::input("Hello Dave -> ");
         match val {
             None => { break }
             Some(input) => {
@@ -25,7 +25,18 @@ fn main() {
 				let is: &str = input.as_ref();
                 if is == "clear" {
                 	linenoise::clear_screen();
-                }
+                } else if is == "history" {
+					let mut index = 0;
+					loop {
+						match linenoise::history_line(index) {
+							None => { break; },
+							Some(line) => {
+								println!("{}: {}", index, line);
+							}
+						};
+						index = index + 1;
+					}
+				}
             }
         }
     }

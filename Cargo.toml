@@ -26,3 +26,7 @@ libc = "*"
 [build-dependencies]
 
 gcc = "*"
+
+[[bin]]
+name = "linenoise_example"
+path = "examples/linenoise_example.rs"
