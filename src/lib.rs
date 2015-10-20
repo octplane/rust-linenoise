@@ -125,6 +125,22 @@ pub fn history_load(file: &str) -> i32 {
     ret
 }
 
+/// Get a line from the history by (zero-based) index
+pub fn history_line(index: i32) -> Option<String> {
+    unsafe {
+        let ret = ffi::linenoiseHistoryLine(index);
+        let rval = if ret != 0 as *mut i8 {
+            let ptr = ret as *const i8;
+            let cast = str::from_utf8(CStr::from_ptr(ptr).to_bytes()).unwrap().to_string();
+            libc::free(ptr as *mut libc::c_void);
+            Some(cast)
+        } else {
+            None
+        };
+        return rval;
+    }
+}
+
 ///Clears the screen
 pub fn clear_screen() {
     unsafe {
