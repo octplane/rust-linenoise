@@ -10,7 +10,7 @@ A minimal, zero-config, BSD licensed, readline replacement.
 Add the following line to you project
 
 `
-linenoise-rust = "0.1.11"
+linenoise-rust = "0.1.14"
 `
 
 # Usage
@@ -35,3 +35,4 @@ Linenoise was also improved by these people. Thanks to them :)
 
 - Dan Spencer @nukep: Fixes for stable rust
 - Kalyanov Dmitry @dmitryvk: Memory Leak
+- Stacy Prowell: Support for history, using a custom version of linenoise

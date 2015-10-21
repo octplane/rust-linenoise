@@ -1,8 +1,8 @@
 [package]
 
 name = "linenoise-rust"
-version = "0.1.13"
-authors = [ "Pierre Baillet <pierre@baillet.name>" ]
+version = "0.1.14"
+authors = [ "Pierre Baillet <pierre@baillet.name>",  ]
 links = "linenoise"
 build = "build.rs"
 
