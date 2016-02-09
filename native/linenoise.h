@@ -40,17 +40,12 @@
 #define __LINENOISE_H
 
 
-#include <termios.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <sys/types.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
