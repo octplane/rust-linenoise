@@ -1367,7 +1367,7 @@ char * linenoiseHistoryLine(const int index) {
 
 /* Save the history in the specified file. On success 0 is returned
  * otherwise -1 is returned. */
-int linenoiseHistorySave(char *filename) {
+int linenoiseHistorySave(const char *filename) {
 #ifdef _WIN32
     FILE *fp = fopen(filename,"wb");
 #else
