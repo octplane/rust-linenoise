@@ -36,6 +36,7 @@
 #include <limits.h>  /* INT_MAX */
 #include <process.h>
 #include <sys/types.h>
+#include <time.h>
 
 #define fseeko fseeko64
 #define ftello ftello64
@@ -78,11 +79,11 @@ RtlGenRandomFunc RtlGenRandom;
 #define rand() replace_random()
 int replace_random();
 
-#if !defined(ssize_t)
-typedef int ssize_t;
+#if !defined(ssize_t) && !defined(_SSIZE_T_DEFINED)
+typedef long ssize_t;
 #endif
 
-#if !defined(mode_t)
+#if !defined(mode_t) && !defined(__MINGW32__)
 #define mode_t long
 #endif
 
@@ -188,7 +189,10 @@ int getrusage(int who, struct rusage * rusage);
 #endif /*SIG_SETMASK*/
 
 typedef	void (*__p_sig_fn_t)(int);
-typedef int pid_t;
+
+#ifndef __MINGW32__
+typedef long pid_t;
+#endif
 
 #ifndef _SIGSET_T_
 #define _SIGSET_T_
@@ -197,8 +201,8 @@ typedef unsigned long long _sigset_t;
 #else
 typedef unsigned long _sigset_t;
 #endif
-# define sigset_t _sigset_t
 #endif /* _SIGSET_T_ */
+# define sigset_t _sigset_t
 
 struct sigaction {
     int          sa_flags;
