@@ -21,11 +21,11 @@ name = "linenoise"
 doctest = false
 
 [dependencies]
-libc = "*"
+libc = "~0.2.7"
 
 [build-dependencies]
 
-gcc = "*"
+gcc = "~0.3.22"
 
 [[bin]]
 # Build the example, but don't include it in documentation.
