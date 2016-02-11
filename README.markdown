@@ -36,3 +36,5 @@ Linenoise was also improved by these people. Thanks to them :)
 - Dan Spencer @nukep: Fixes for stable rust
 - Kalyanov Dmitry @dmitryvk: Memory Leak
 - Stacy Prowell: Support for history, using a custom version of linenoise
+- Chris Dawes @cmsd2: Win32 support, importer from LUA linenoise binding
+
