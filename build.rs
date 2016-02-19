@@ -6,6 +6,7 @@ fn main() {
     .file("native/wcwidth.cpp")
     .file("native/ConvertUTF.cpp")
     .file("native/linenoise.cpp")
+    .flag("--std=c++0x") // char32_t support for mingw64
     .include("native/")
     .compile("liblinenoise.a");
 }
