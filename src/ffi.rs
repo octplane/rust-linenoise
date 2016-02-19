@@ -1001,11 +1001,12 @@ extern "C" {
     pub fn linenoise(prompt: *const libc::c_char) -> *mut libc::c_char;
     pub fn linenoiseHistoryAdd(line: *const libc::c_char) -> libc::c_int;
     pub fn linenoiseHistorySetMaxLen(len: libc::c_int) -> libc::c_int;
+    pub fn linenoiseHistoryLine(index: libc::c_int) -> *mut libc::c_char;
     pub fn linenoiseHistorySave(filename: *const libc::c_char)
      -> libc::c_int;
     pub fn linenoiseHistoryLoad(filename: *const libc::c_char)
      -> libc::c_int;
-    pub fn linenoiseHistoryLine(index: libc::c_int) -> *mut libc::c_char;
+    // pub fn linenoiseHistoryLine(index: libc::c_int) -> *mut libc::c_char;
     pub fn linenoiseClearScreen();
     pub fn linenoiseSetMultiLine(ml: libc::c_int);
     pub fn linenoisePrintKeyCodes();
