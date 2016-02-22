@@ -10,13 +10,12 @@ A minimal, zero-config, BSD licensed, readline replacement.
 Add the following line to you project
 
 `
-linenoise-rust = "0.1.14"
+linenoise-rust = "0.2.0"
 `
 
 # Usage
 
-- example code [src/linenoise.rs](src/linenoise.rs).
-- [Api documentation](http://octplane.github.io/rust-linenoise/linenoise/index.html)
+- example code [src/linenoise_example.rs](src/linenoise_example.rs).
 
 # Misc
 
@@ -36,3 +35,4 @@ Linenoise was also improved by these people. Thanks to them :)
 - Dan Spencer @nukep: Fixes for stable rust
 - Kalyanov Dmitry @dmitryvk: Memory Leak
 - Stacy Prowell: Support for history, using a custom version of linenoise
+- Chris Dawes @cmsd2: win32 and arango merge help
