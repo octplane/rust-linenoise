@@ -15,7 +15,7 @@ linenoise-rust = "0.2.0"
 
 # Usage
 
-- example code [src/linenoise_example.rs](src/linenoise_example.rs).
+- Example code: [examples/linenoise_example.rs](examples/linenoise_example.rs).
 
 # Misc
 
