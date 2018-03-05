@@ -1,7 +1,7 @@
 extern crate gcc;
 
 fn main() {
-  gcc::Config::new()
+  gcc::Build::new()
     .cpp(true) // Switch to C++ library compilation.
     .file("native/wcwidth.cpp")
     .file("native/ConvertUTF.cpp")

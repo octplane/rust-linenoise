@@ -36,3 +36,4 @@ Linenoise was also improved by these people. Thanks to them :)
 - Kalyanov Dmitry @dmitryvk: Memory Leak
 - Stacy Prowell: Support for history, using a custom version of linenoise
 - Chris Dawes @cmsd2: win32 and arango merge help
+- Bruno Ploumhans @Technici4n: fix build under MSVC

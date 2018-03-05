@@ -50,7 +50,6 @@ pub mod ffi;
 
 
 pub type Completions = ffi::Struct_linenoiseCompletions;
-type Callback = ffi::linenoiseCompletionCallback;
 
 pub type CompletionCallback = fn(&str) -> Vec<String>;
 static mut USER_COMPLETION: Option<CompletionCallback> = None;
