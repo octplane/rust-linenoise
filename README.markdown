@@ -10,7 +10,7 @@ A minimal, zero-config, BSD licensed, readline replacement.
 Add the following line to you project
 
 `
-linenoise-rust = "0.2.0"
+linenoise-rust = { version = "0.3.0", git = "https://github.com/lilobooter/rust-linenoise" }
 `
 
 # Usage
