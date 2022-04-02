@@ -87,7 +87,8 @@ pub fn input(prompt: &str) -> Option<String> {
 
 /// Add this string to the history
 pub fn history_add(line: &str) -> i32 {
-    let cs = CString::new(line).unwrap().as_ptr();
+    let cs_alloc = CString::new(line).expect("CString::new failed");
+    let cs = cs_alloc.as_ptr( );
     let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistoryAdd(cs);
@@ -106,7 +107,8 @@ pub fn history_set_max_len(len: i32) -> i32 {
 
 /// Save the history on disk
 pub fn history_save(file: &str) -> i32 {
-    let fname = CString::new(file).unwrap().as_ptr();
+    let cs = CString::new(file).expect("CString::new failed");
+    let fname = cs.as_ptr( );
     let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistorySave(fname);
@@ -116,7 +118,8 @@ pub fn history_save(file: &str) -> i32 {
 
 /// Load the history on disk
 pub fn history_load(file: &str) -> i32 {
-    let fname = CString::new(file).unwrap().as_ptr();
+    let cs = CString::new(file).expect("CString::new failed");
+    let fname = cs.as_ptr( );
     let ret: i32;
     unsafe {
         ret = ffi::linenoiseHistoryLoad(fname);
@@ -161,9 +164,11 @@ pub fn print_key_codes() {
 
 
 /// Add a completion to the current list of completions.
-pub fn add_completion(c: *mut Completions, s: &str) {
+pub fn add_completion(c: *mut Completions, input: &str) {
     unsafe {
-        ffi::linenoiseAddCompletion(c, CString::new(s).unwrap().as_ptr());
+        let cs = CString::new(input).expect("CString::new failed");
+        let s = cs.as_ptr( );
+        ffi::linenoiseAddCompletion(c, s);
     }
 }
 
