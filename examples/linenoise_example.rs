@@ -40,4 +40,5 @@ fn main() {
       }
     }
   }
+  linenoise::history_free( );
 }

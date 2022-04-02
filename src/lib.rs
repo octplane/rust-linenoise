@@ -143,6 +143,12 @@ pub fn history_line(index: i32) -> Option<String> {
     }
 }
 
+pub fn history_free() {
+    unsafe {
+        ffi::linenoiseHistoryFree();
+    }
+}
+
 ///Clears the screen
 pub fn clear_screen() {
     unsafe {
