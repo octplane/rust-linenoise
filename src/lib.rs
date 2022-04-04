@@ -45,6 +45,7 @@ extern crate libc;
 use std::ffi::CString;
 use std::ffi::CStr;
 use std::str;
+use std::ptr;
 
 pub mod ffi;
 
@@ -189,6 +190,41 @@ fn internal_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
         let input = str::from_utf8(CStr::from_ptr(cr).to_bytes()).unwrap();
         for external_callback in USER_COMPLETION.iter() {
             let ret = (*external_callback)(input);
+            for x in ret.iter() {
+                add_completion(lc, x.as_ref());
+            }
+        }
+    }
+}
+
+/// Provides an alternative callback with additional void * argument
+pub type CompletionArgCallback = fn(&str, *const libc::c_void) -> Vec<String>;
+static mut USER_COMPLETION_ARG: Option<CompletionArgCallback> = None;
+static mut USER_COMPLETION_VAL: Option<*const libc::c_void> = None;
+
+pub fn set_callback_with_arg(rust_cb: CompletionArgCallback, arg: *const libc::c_void) {
+    unsafe {
+        USER_COMPLETION_ARG = Some(rust_cb);
+        USER_COMPLETION_VAL = Some(arg);
+        let ca = internal_arg_callback as *mut _;
+        ffi::linenoiseSetCompletionCallback(ca);
+    }
+}
+
+fn internal_arg_callback(cs: *mut libc::c_char, lc:*mut Completions ) {
+    unsafe {
+        (*lc).len = 0;
+    }
+    let cr = cs as *const _;
+
+    unsafe {
+        let input = str::from_utf8(CStr::from_ptr(cr).to_bytes()).unwrap();
+        for external_callback in USER_COMPLETION_ARG.iter() {
+            let val = match USER_COMPLETION_VAL {
+                Some( ptr ) => ptr,
+                None => ptr::null( ),
+            };
+            let ret = (*external_callback)(input, val );
             for x in ret.iter() {
                 add_completion(lc, x.as_ref());
             }
